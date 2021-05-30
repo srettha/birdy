@@ -1,0 +1,9 @@
+node_modules
+.DS_Store
+yarn-error.log
+pubsub/data
+**/db/data
+
+**/coverage
+**/junit.xml
+**/ngrok.log

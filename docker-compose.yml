@@ -1,0 +1,23 @@
+version: '3'
+services:
+  postgres:
+    image: 'postgres'
+    container_name: 'birdy_postgres'
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: birdy
+      POSTGRES_USER: birdy
+      POSTGRES_PASSWORD: birdy
+    volumes:
+      - ./db/data:/var/lib/postgresql/data
+  redis:
+    image: 'redis'
+    container_name: 'birdy_redis'
+    ports:
+      - 6379:6379
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: 'birdy_zipkin'
+    ports:
+      - 9411:9411
