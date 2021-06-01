@@ -1,13 +1,9 @@
 const axios = require('axios').default
 
-class Birdy {
-  constructor(url = 'http://localhost:5001') {
-    this.url = url
-  }
-
-  getBirds() {
-    return axios.get(`${this.url}/birds`)
-  }
+function getBirds() {
+  return axios.get('http://localhost:5001/birds')
 }
 
-module.exports = Birdy
+module.exports = {
+  getBirds,
+}
