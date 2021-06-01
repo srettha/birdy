@@ -21,7 +21,7 @@ function createHttpServer(tracer) {
   app.get('/birds', async (_req, res) => {
     const currentSpan = api.getSpan(api.context.active())
     console.log(`traceid: ${currentSpan.context().traceId}`)
-    const span = tracer.startSpan('getAllBirds()', {
+    const span = tracer.startSpan(`${getAllBirds.name}`, {
       kind: api.SpanKind.SERVER,
     })
 
