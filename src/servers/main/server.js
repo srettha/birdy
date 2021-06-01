@@ -5,7 +5,8 @@ const express = require('express')
 const http = require('http')
 const HttpStatus = require('http-status')
 
-const { getBirds } = require('./service')
+const apolloServer = require('./apollo')
+const { getBirds } = require('./apollo/service')
 
 /**
  * @param {api.Tracer} tracer
@@ -26,11 +27,10 @@ function createHttpServer(tracer) {
 
     api.context.with(api.setSpan(api.ROOT_CONTEXT, span), async () => {
       try {
-        const result = await getBirds()
-        console.log('status:', result.statusText)
+        const birds = await getBirds()
         span.setStatus({ code: api.SpanStatusCode.OK })
 
-        res.status(HttpStatus.OK).json({ birds: result.data.birds })
+        res.status(HttpStatus.OK).json({ birds })
       } catch (e) {
         console.log('failed:', e.message)
         span.setStatus({ code: api.SpanStatusCode.ERROR, message: e.message })
@@ -38,6 +38,8 @@ function createHttpServer(tracer) {
       span.end()
     })
   })
+
+  apolloServer.applyMiddleware({ app })
 
   return http.createServer(app)
 }
