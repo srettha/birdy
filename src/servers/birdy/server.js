@@ -4,7 +4,7 @@ const express = require('express')
 const http = require('http')
 const HttpStatus = require('http-status')
 
-const { Bird } = require('../../db/models')
+const { getAllBirds } = require('./service')
 
 /**
  * @param {api.Tracer} tracer
@@ -21,19 +21,19 @@ function createHttpServer(tracer) {
   app.get('/birds', async (_req, res) => {
     const currentSpan = api.getSpan(api.context.active())
     console.log(`traceid: ${currentSpan.context().traceId}`)
-    const span = tracer.startSpan('GET birds', {
+    const span = tracer.startSpan('getAllBirds()', {
       kind: api.SpanKind.SERVER,
     })
 
     api.context.with(api.setSpan(api.ROOT_CONTEXT, span), async () => {
       try {
-        const birds = await Bird.query()
+        const birds = await getAllBirds()
         span.setStatus({ code: api.SpanStatusCode.OK })
 
         res.status(HttpStatus.OK).json({ birds })
-      } catch (e) {
-        span.setStatus({ code: api.SpanStatusCode.ERROR, message: e.message })
-        res.status(HttpStatus.BAD_REQUEST).send({ message: e.message })
+      } catch (err) {
+        span.setStatus({ code: api.SpanStatusCode.ERROR, message: err.message })
+        res.status(HttpStatus.BAD_REQUEST).send({ message: err.message })
       }
       span.end()
     })
