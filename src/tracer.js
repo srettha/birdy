@@ -7,6 +7,7 @@ diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.INFO)
 const { ZipkinExporter } = require('@opentelemetry/exporter-zipkin')
 const { registerInstrumentations } = require('@opentelemetry/instrumentation')
 const { ExpressInstrumentation } = require('@opentelemetry/instrumentation-express')
+const { GraphQLInstrumentation } = require('@opentelemetry/instrumentation-graphql')
 const { HttpInstrumentation } = require('@opentelemetry/instrumentation-http')
 const { IORedisInstrumentation } = require('@opentelemetry/instrumentation-ioredis')
 const { PgInstrumentation } = require('@opentelemetry/instrumentation-pg')
@@ -22,6 +23,7 @@ module.exports = (serviceName) => {
       ExpressInstrumentation,
       HttpInstrumentation,
       IORedisInstrumentation,
+      new GraphQLInstrumentation({ depth: 100 }),
       new PgInstrumentation({ enhancedDatabaseReporting: true }),
     ],
   })
