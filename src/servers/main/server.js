@@ -29,7 +29,7 @@ function createHttpServer(tracer) {
         console.log('status:', result.statusText)
         span.setStatus({ code: api.SpanStatusCode.OK })
 
-        res.status(HttpStatus.OK).json({ birds: result.data })
+        res.status(HttpStatus.OK).json({ birds: result.data.birds })
       } catch (e) {
         console.log('failed:', e.message)
         span.setStatus({ code: api.SpanStatusCode.ERROR, message: e.message })
