@@ -8,6 +8,7 @@ const { ZipkinExporter } = require('@opentelemetry/exporter-zipkin')
 const { registerInstrumentations } = require('@opentelemetry/instrumentation')
 const { ExpressInstrumentation } = require('@opentelemetry/instrumentation-express')
 const { HttpInstrumentation } = require('@opentelemetry/instrumentation-http')
+const { IORedisInstrumentation } = require('@opentelemetry/instrumentation-ioredis')
 const { PgInstrumentation } = require('@opentelemetry/instrumentation-pg')
 const { NodeTracerProvider } = require('@opentelemetry/node')
 const { SimpleSpanProcessor } = require('@opentelemetry/tracing')
@@ -18,9 +19,10 @@ module.exports = (serviceName) => {
     tracerProvider: provider,
     instrumentations: [
       // Express instrumentation expects HTTP layer to be instrumented
-      HttpInstrumentation,
       ExpressInstrumentation,
-      PgInstrumentation,
+      HttpInstrumentation,
+      IORedisInstrumentation,
+      new PgInstrumentation({ enhancedDatabaseReporting: true }),
     ],
   })
 
