@@ -4,8 +4,8 @@ const express = require('express')
 const http = require('http')
 const HttpStatus = require('http-status')
 
+const { birdService } = require('../../services')
 const { birdQueue } = require('../../worker')
-const { getAllBirds } = require('./service')
 
 /**
  * @param {api.Tracer} tracer
@@ -22,13 +22,13 @@ function createHttpServer(tracer) {
   app.get('/birds', async (_req, res) => {
     const currentSpan = api.getSpan(api.context.active())
     console.log(`traceid: ${currentSpan.context().traceId}`)
-    const span = tracer.startSpan(`${getAllBirds.name}`, {
+    const span = tracer.startSpan(`${birdService.getAllBirds.name}`, {
       kind: api.SpanKind.SERVER,
     })
 
     api.context.with(api.setSpan(api.ROOT_CONTEXT, span), async () => {
       try {
-        const birds = await getAllBirds()
+        const birds = await birdService.getAllBirds()
         span.setStatus({ code: api.SpanStatusCode.OK })
 
         res.status(HttpStatus.OK).json({ birds })
