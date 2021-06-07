@@ -10,7 +10,9 @@
     "dev": "concurrently --kill-others -n main,birdy \"yarn dev:main\" \"yarn dev:birdy\"",
     "migrate:make": "knex migrate:make --knexfile src/knexfile",
     "migrate:latest": "knex migrate:latest --knexfile src/knexfile",
-    "migrate:rollback": "knex migrate:rollback --knexfile src/knexfile"
+    "migrate:rollback": "knex migrate:rollback --knexfile src/knexfile",
+    "seed:make": "knex seed:male --knexfile src/knexfile",
+    "seed:latest": "knex seed:run --knexfile src/knexfile"
   },
   "dependencies": {
     "@opentelemetry/api": "^1.0.0-rc.0",
