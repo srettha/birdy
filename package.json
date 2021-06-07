@@ -27,6 +27,7 @@
     "@opentelemetry/tracing": "^0.19.0",
     "apollo-server-express": "^2.25.0",
     "axios": "^0.21.1",
+    "bullmq": "^1.31.1",
     "express": "^4.17.1",
     "glob": "^7.1.7",
     "graphql": "^15.5.0",
